@@ -1,11 +1,13 @@
-# ViviTune
+# ViviTune · Sakura Edition
+
+Аниме-оформление ViviTune: маскот Vivi, тёмная сакура-палитра, розово-сиреневые акценты и мягкие карточки во всех разделах. Логика SOCKS5/VLESS, маршрутизация и настройки сохранены.
 
 Пускает трафик **только выбранных программ** Windows через SOCKS5-прокси. Например, через роутер с [Podkop](https://github.com/itdoginfo/podkop). Остальной трафик идёт напрямую, как обычно. Есть и второй список, «Мимо Podkop»: его программы идут в отдельный порт роутера, и пока этот порт отвечает, они выходят мимо VPN Podkop; если не отвечает, ViviTune предупреждает (см. [ниже](#мимо-podkop)).
 
 Типичный сценарий: Discord (голос и стримы) и пара игр ходят через роутер, а браузер, Steam и всё прочее — напрямую.
 
-![Главная](docs/home.png)
-![Приложения](docs/apps.png)
+![Главная — аниме-тема Sakura](docs/home.png)
+![Приложения — аниме-тема Sakura](docs/apps.png)
 
 ## Как это работает
 
@@ -133,6 +135,14 @@ uci commit podkop
 1. Скачайте [sing-box 1.12.12](https://github.com/SagerNet/sing-box/releases/tag/v1.12.12) для `windows-amd64` и положите `sing-box.exe` в `src/ViviTune/third_party/`.
 2. Тесты: `dotnet run --project src/ViviTune.Tests`.
 3. Сборка: `dotnet publish src/ViviTune -c Release -o artifacts/publish`. Получится один `ViviTune.exe`, рядом с ним `sing-box.exe` и файлы лицензий.
+
+## Скриншоты и оформление
+
+Скриншоты выше отрисованы из настоящих страниц приложения на демонстрационных данных, без запуска sing-box. В оформлении используется оригинальная иллюстрация, созданная встроенным ImageGen; описание и промпт — [docs/artwork.md](docs/artwork.md).
+
+Чтобы переснять интерфейс: `dotnet run --project src/ViviTune.Shots -- artifacts/shots`.
+Минимальный размер окна (760 × 520): `dotnet run --project src/ViviTune.Shots -- artifacts/shots-compact --compact`.
+Для README используются `home-connected.png` → `docs/home.png`, `apps.png` → `docs/apps.png`, `home-vless-connected.png` → `docs/vless-home.png`, `settings-vless.png` → `docs/vless-settings.png`, `apps-sites.png` → `docs/vless-sites.png`.
 
 ## Лицензия
 

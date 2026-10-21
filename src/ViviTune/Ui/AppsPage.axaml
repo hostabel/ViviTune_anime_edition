@@ -46,11 +46,11 @@
       <Setter Property="Cursor" Value="Hand" />
     </Style>
     <Style Selector="Button.pick:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="#1d2240" />
+      <Setter Property="Background" Value="#39273f" />
       <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
     </Style>
     <Style Selector="Button.pick:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="#252a4d" />
+      <Setter Property="Background" Value="#493050" />
       <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
     </Style>
     <!-- Список, уже входящий в Russia inside: бледнее -->
@@ -172,15 +172,15 @@
          В слое окна (ShouldUseOverlayLayer): так её видят и снимки Shots. -->
     <Popup Name="AddPopup" Grid.Row="1" Placement="AnchorAndGravity" PlacementAnchor="TopRight" PlacementGravity="BottomLeft"
            IsLightDismissEnabled="True" ShouldUseOverlayLayer="True">
-      <Border Width="300" Background="#121629" BorderBrush="{StaticResource LineBrush}" BorderThickness="1"
+      <Border Width="300" Background="#201727" BorderBrush="{StaticResource LineBrush}" BorderThickness="1"
               CornerRadius="12" Padding="10" BoxShadow="0 12 40 0 #80000000">
         <Border.Resources>
           <!-- Поле поиска — цвета карточки, как в макете -->
-          <SolidColorBrush x:Key="TextControlBackground" Color="#171b2e" />
-          <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#171b2e" />
-          <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#171b2e" />
-          <SolidColorBrush x:Key="TextControlBorderBrush" Color="#171b2e" />
-          <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#252a44" />
+          <SolidColorBrush x:Key="TextControlBackground" Color="#251c2e" />
+          <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#251c2e" />
+          <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#251c2e" />
+          <SolidColorBrush x:Key="TextControlBorderBrush" Color="#251c2e" />
+          <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#44304f" />
         </Border.Resources>
         <StackPanel>
           <TextBox Name="SearchBox" PlaceholderText="Поиск…" FontSize="13" CornerRadius="8">

@@ -5,8 +5,8 @@
              x:DataType="ui:ViewState">
   <UserControl.Resources>
     <LinearGradientBrush x:Key="RingGradient" StartPoint="0%,0%" EndPoint="100%,100%">
-      <GradientStop Offset="0" Color="#22d3ee" />
-      <GradientStop Offset="1" Color="#8b5cf6" />
+      <GradientStop Offset="0" Color="#f6a2cb" />
+      <GradientStop Offset="1" Color="#bd9bfa" />
     </LinearGradientBrush>
 
     <!-- Круглая кнопка: кольцо, круг со значком питания.
@@ -20,7 +20,7 @@
       <Setter Property="Template">
         <ControlTemplate>
           <Panel>
-            <Ellipse Name="Ring" Stroke="#2a2f4d" StrokeThickness="3" />
+            <Ellipse Name="Ring" Stroke="#583c61" StrokeThickness="3" />
             <Arc Name="Spinner" IsVisible="False" Stroke="{StaticResource RingGradient}" StrokeThickness="3"
                  StrokeLineCap="Round" StartAngle="-90" SweepAngle="110" RenderTransformOrigin="50%,50%">
               <Arc.RenderTransform>
@@ -30,8 +30,8 @@
             <Border Name="Face" Width="130" Height="130" CornerRadius="65">
               <Border.Background>
                 <RadialGradientBrush Center="50%,40%" GradientOrigin="50%,40%" RadiusX="78%" RadiusY="78%">
-                  <GradientStop Offset="0" Color="#1e2340" />
-                  <GradientStop Offset="1" Color="#11142a" />
+                  <GradientStop Offset="0" Color="#49304e" />
+                  <GradientStop Offset="1" Color="#24192e" />
                 </RadialGradientBrush>
               </Border.Background>
               <Viewbox Width="44" Height="44">
@@ -45,6 +45,9 @@
       <Style Selector="^:pointerover">
         <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
       </Style>
+      <Style Selector="^:focus-visible /template/ Ellipse#Ring">
+        <Setter Property="Stroke" Value="{StaticResource TextBrush}" />
+      </Style>
       <Style Selector="^:disabled">
         <Setter Property="Cursor" Value="Arrow" />
       </Style>
@@ -55,7 +58,7 @@
         <Setter Property="Stroke" Value="{StaticResource RingGradient}" />
       </Style>
       <Style Selector="^.connected /template/ Border#Face">
-        <Setter Property="BoxShadow" Value="0 0 38 0 #5922d3ee" />
+        <Setter Property="BoxShadow" Value="0 0 38 0 #59f6a2cb" />
       </Style>
       <Style Selector="^.busy /template/ Arc#Spinner">
         <Setter Property="IsVisible" Value="True" />

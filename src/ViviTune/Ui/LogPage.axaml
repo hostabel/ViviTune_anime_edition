@@ -13,7 +13,7 @@
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="sys:String">
                 <SelectableTextBlock Text="{Binding}" FontFamily="{StaticResource MonoFont}" FontSize="12"
-                                     LineHeight="18" TextWrapping="Wrap" Foreground="#c5c9e4" />
+                                     LineHeight="18" TextWrapping="Wrap" Foreground="#e3cfe9" />
               </DataTemplate>
             </ItemsControl.ItemTemplate>
           </ItemsControl>

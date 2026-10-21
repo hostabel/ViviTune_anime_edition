@@ -20,7 +20,9 @@ AppBuilder.Configure<App>()
     .SetupWithoutStarting();
 
 var s = Demo();
-var window = new MainWindow(s) { Width = 900, Height = 600 };
+// --compact проверяет ту же тему при минимальном размере окна.
+bool compact = args.Contains("--compact");
+var window = new MainWindow(s) { Width = compact ? 760 : 1000, Height = compact ? 520 : 640 };
 window.Show();
 int enabled = s.Apps.Count(a => a.Enabled), direct = s.DirectApps.Count(a => a.Enabled);
 

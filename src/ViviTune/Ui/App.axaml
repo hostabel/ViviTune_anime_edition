@@ -5,7 +5,7 @@
   <Application.Styles>
     <FluentTheme>
       <FluentTheme.Palettes>
-        <ColorPaletteResources x:Key="Dark" Accent="#22d3ee" RegionColor="#0e1120" ErrorText="#f87171" />
+        <ColorPaletteResources x:Key="Dark" Accent="#f6a2cb" RegionColor="#19131f" ErrorText="#ff8fa3" />
       </FluentTheme.Palettes>
     </FluentTheme>
     <StyleInclude Source="avares://ViviTune/Ui/Theme.axaml" />
