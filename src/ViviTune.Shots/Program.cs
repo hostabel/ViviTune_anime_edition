@@ -104,6 +104,16 @@ s.State = ConnState.Disconnected;
 s.Apps.Clear();
 Shot(NavPage.Apps, "apps-empty.png");
 
+// Образы на настоящих порогах, без передачи сетевого трафика.
+s.State = ConnState.Checking;
+s.State = ConnState.Connected;
+s.DetailText = "";
+Shot(NavPage.Home, "mascot-classic.png");
+s.PushSpeed(new Speed(0, 0, ViewState.MascotCasualAt / 2, ViewState.MascotCasualAt / 2));
+Shot(NavPage.Home, "mascot-casual.png");
+s.PushSpeed(new Speed(0, 0, 0, ViewState.MascotSummerAt - ViewState.MascotCasualAt));
+Shot(NavPage.Home, "mascot-summer.png");
+
 window.Close();
 return 0;
 

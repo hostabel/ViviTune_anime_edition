@@ -12,6 +12,8 @@ namespace ViviTune.Ui;
 public sealed class ViewState : INotifyPropertyChanged
 {
     public const int HistoryMax = 60, LogMax = 500;
+    public const long MascotCasualAt = 1024L * 1024 * 1024;
+    public const long MascotSummerAt = 10 * MascotCasualAt;
 
     ConnState state;
     string? errorText, warningText, settingsError;
@@ -57,6 +59,7 @@ public sealed class ViewState : INotifyPropertyChanged
             {
                 upTotal = downTotal = 0;
                 Notify(nameof(UpTotalText), nameof(DownTotalText));
+                NotifyMascot();
             }
             Notify(nameof(StatusText), nameof(SettingsEditable), nameof(IsBusy), nameof(IsConnected));
         }
@@ -95,6 +98,31 @@ public sealed class ViewState : INotifyPropertyChanged
     public string DownText => Format.Speed(downBps);
     public string UpTotalText => "всего " + Format.Bytes(upTotal);
     public string DownTotalText => "всего " + Format.Bytes(downTotal);
+    // Тот же измеренный трафик через proxy, что и на главной: загрузка + отдача за сеанс.
+    public long MascotTrafficBytes => upTotal + downTotal;
+    public int MascotStage => MascotTrafficBytes >= MascotSummerAt ? 2 : MascotTrafficBytes >= MascotCasualAt ? 1 : 0;
+    public bool MascotClassic => MascotStage == 0;
+    public bool MascotCasual => MascotStage == 1;
+    public bool MascotSummer => MascotStage == 2;
+    public string MascotStageText => MascotStage switch
+    {
+        0 => "Vivi · в куртке",
+        1 => "Vivi · без куртки",
+        _ => "Vivi · летний образ"
+    };
+    public string MascotTrafficText => Format.Bytes(MascotTrafficBytes) + " за сеанс";
+    public string MascotNextText => MascotStage switch
+    {
+        0 => "Следующий образ: 1 ГБ",
+        1 => "Следующий образ: 10 ГБ",
+        _ => "Все 3 образа открыты"
+    };
+    public double MascotProgress => MascotStage switch
+    {
+        0 => 100.0 * MascotTrafficBytes / MascotCasualAt,
+        1 => 100.0 * (MascotTrafficBytes - MascotCasualAt) / (MascotSummerAt - MascotCasualAt),
+        _ => 100
+    };
     public ObservableCollection<double> UpHistory { get; } = new();
     public ObservableCollection<double> DownHistory { get; } = new();
 
@@ -202,7 +230,12 @@ public sealed class ViewState : INotifyPropertyChanged
         upTotal += s.UpBytes;
         downTotal += s.DownBytes;
         Notify(nameof(UpTotalText), nameof(DownTotalText));
+        NotifyMascot();
     }
+
+    void NotifyMascot() => Notify(nameof(MascotTrafficBytes), nameof(MascotStage),
+        nameof(MascotClassic), nameof(MascotCasual), nameof(MascotSummer),
+        nameof(MascotStageText), nameof(MascotTrafficText), nameof(MascotNextText), nameof(MascotProgress));
 
     public void AddLog(string line) => Push(LogLines, line, LogMax);
 

@@ -29,6 +29,8 @@
     <PackageReference Include="System.Drawing.Common" Version="10.0.0" />
     <AvaloniaResource Include="Assets\icon.ico" />
     <AvaloniaResource Include="Assets\sakura-mascot.png" />
+    <AvaloniaResource Include="Assets\sakura-casual.png" />
+    <AvaloniaResource Include="Assets\sakura-summer.png" />
     <None Include="third_party\sing-box.exe" Condition="Exists('third_party\sing-box.exe')" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" Link="sing-box.exe" />
     <None Include="..\..\LICENSE" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" Link="LICENSE.txt" />
     <None Include="..\..\THIRD-PARTY-NOTICES.txt" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" Link="THIRD-PARTY-NOTICES.txt" />

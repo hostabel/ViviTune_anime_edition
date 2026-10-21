@@ -25,6 +25,7 @@ static class Program
         SessionTests();
         CatalogTests();
         ViewStateTests();
+        MascotProgressTests();
         AppListTests();
         VlessLinkTests();
         SettingsV4Tests();
@@ -34,6 +35,49 @@ static class Program
         VlessProbeTests();
         ViewStateVlessTests();
         return failures == 0 ? 0 : 1;
+    }
+
+    static void MascotProgressTests()
+    {
+        var s = new ViewState { State = ConnState.Checking };
+        var changed = new HashSet<string>();
+        s.PropertyChanged += (_, e) => { if (e.PropertyName != null) changed.Add(e.PropertyName); };
+        s.State = ConnState.Connected;
+        Check(s.MascotClassic && !s.MascotCasual && !s.MascotSummer && s.MascotProgress == 0,
+            "Mascot: новый сеанс, первый образ и нулевой прогресс");
+        s.PushSpeed(new Speed(5000000, 9000000));
+        Check(s.MascotTrafficBytes == 0, "Mascot: скорость без байтов не открывает образ");
+        s.PushSpeed(new Speed(0, 0, ViewState.MascotCasualAt / 2, ViewState.MascotCasualAt / 2 - 1));
+        Check(s.MascotTrafficBytes == ViewState.MascotCasualAt - 1 && s.MascotClassic
+            && s.MascotProgress > 99 && s.MascotProgress < 100, "Mascot: сумма upload/download, байт до первого порога");
+        changed.Clear();
+        s.PushSpeed(new Speed(0, 0, 1, 0));
+        Check(!s.MascotClassic && s.MascotCasual && !s.MascotSummer && s.MascotProgress == 0
+            && s.MascotNextText.Contains("10 ГБ"), "Mascot: ровно 1 ГБ, второй образ и новый интервал прогресса");
+        Check(new[] { nameof(s.MascotStage), nameof(s.MascotClassic), nameof(s.MascotCasual), nameof(s.MascotSummer),
+            nameof(s.MascotStageText), nameof(s.MascotTrafficText), nameof(s.MascotProgress), nameof(s.MascotNextText) }
+            .All(changed.Contains), "Mascot: интерфейс получает уведомления о смене образа и прогресса");
+        s.State = ConnState.Restarting;
+        s.State = ConnState.Connected;
+        s.Mode = ProxyMode.Vless;
+        Check(s.MascotCasual && s.MascotTrafficBytes == ViewState.MascotCasualAt,
+            "Mascot: внутренний перезапуск и режим не сбрасывают итог");
+        s.PushSpeed(new Speed(0, 0, 0, ViewState.MascotSummerAt - ViewState.MascotCasualAt - 1));
+        Check(s.MascotCasual && s.MascotProgress < 100, "Mascot: байт до 10 ГБ, второй образ");
+        s.PushSpeed(new Speed(0, 0, 0, 1));
+        Check(!s.MascotClassic && !s.MascotCasual && s.MascotSummer && s.MascotProgress == 100,
+            "Mascot: ровно 10 ГБ, третий образ");
+        s.PushSpeed(new Speed(0, 0, ViewState.MascotSummerAt, ViewState.MascotSummerAt));
+        Check(s.MascotSummer && s.MascotProgress == 100 && s.MascotTrafficBytes == 3 * ViewState.MascotSummerAt,
+            "Mascot: после финала счётчик растёт, прогресс остаётся 100%");
+        s.State = ConnState.Disconnected;
+        Check(s.MascotSummer, "Mascot: итог и образ видны после отключения");
+        changed.Clear();
+        s.State = ConnState.Checking;
+        Check(s.MascotTrafficBytes == 0 && s.MascotClassic && s.MascotProgress == 0 && changed.Contains(nameof(s.MascotClassic)),
+            "Mascot: новое подключение сбрасывает итог и обновляет образ");
+        s.PushSpeed(new Speed(0, 0, ViewState.MascotSummerAt, 0));
+        Check(s.MascotSummer, "Mascot: один большой интервал сразу открывает третий образ");
     }
 
     static void ListStoreTests()

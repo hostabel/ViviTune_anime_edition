@@ -47,12 +47,23 @@
       <!-- Декоративный маскот не перехватывает мышь и не участвует в Tab-навигации. -->
       <Border Grid.Row="1" Margin="6,14,6,0" CornerRadius="18" ClipToBounds="True" VerticalAlignment="Bottom"
               IsHitTestVisible="False">
-        <Image Source="/Assets/sakura-mascot.png" MaxHeight="248" Stretch="Uniform"
-               RenderOptions.BitmapInterpolationMode="HighQuality" />
+        <Panel MaxHeight="248">
+          <Image Source="/Assets/sakura-mascot.png" Stretch="Uniform" IsVisible="{Binding MascotClassic}"
+                 RenderOptions.BitmapInterpolationMode="HighQuality" />
+          <Image Source="/Assets/sakura-casual.png" Stretch="Uniform" IsVisible="{Binding MascotCasual}"
+                 RenderOptions.BitmapInterpolationMode="HighQuality" />
+          <Image Source="/Assets/sakura-summer.png" Stretch="Uniform" IsVisible="{Binding MascotSummer}"
+                 RenderOptions.BitmapInterpolationMode="HighQuality" />
+        </Panel>
       </Border>
-      <StackPanel Grid.Row="2" Margin="0,12,0,18" Spacing="4" IsHitTestVisible="False">
-        <TextBlock Text="Vivi · твоя спутница" FontSize="10" HorizontalAlignment="Center" Foreground="{StaticResource Accent1Brush}" />
-        <TextBlock Text="ANIME COLLECTION" FontSize="8" LetterSpacing="1.1" HorizontalAlignment="Center" Foreground="{StaticResource MutedBrush}" />
+      <StackPanel Grid.Row="2" Margin="12,10,12,14" Spacing="5"
+                  ToolTip.Tip="Загрузка + отдача через прокси/VPN за сеанс. Образы меняются на 1 и 10 ГБ (1024³ байт в ГБ). Новое подключение сбрасывает прогресс; внутренний перезапуск сохраняет его.">
+        <TextBlock Text="{Binding MascotStageText}" FontSize="10" HorizontalAlignment="Center" Foreground="{StaticResource Accent1Brush}" />
+        <TextBlock Text="{Binding MascotTrafficText}" FontSize="10" HorizontalAlignment="Center" Foreground="{StaticResource TextBrush}" />
+        <ProgressBar Minimum="0" Maximum="100" Value="{Binding MascotProgress}" Height="4" MinHeight="4" MinWidth="0" MaxWidth="130"
+                     Foreground="{StaticResource AccentGradient}" Background="{StaticResource LineBrush}"
+                     AutomationProperties.Name="Прогресс до следующего образа Vivi" />
+        <TextBlock Text="{Binding MascotNextText}" FontSize="9" HorizontalAlignment="Center" Foreground="{StaticResource MutedBrush}" />
       </StackPanel>
       </Grid>
     </Border>
